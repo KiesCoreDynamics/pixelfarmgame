@@ -1,3 +1,19 @@
+"use client"
+
+import GameCanvas from "@/components/GameCanvas";
+
+
+
+// import dynamic from "next/dynamic";
+
+// const GameCanvas = dynamic(() => import("../components/GameCanvas"), {
+//   ssr: false,
+// });
+
 export default function Home() {
-  return <main>Pixel Farm Game</main>;
+  return (
+    <main>
+      <GameCanvas />
+    </main>
+  );
 }
