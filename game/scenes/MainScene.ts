@@ -28,6 +28,7 @@ export class MainScene extends Phaser.Scene {
     const tileset = map.addTilesetImage("grass-spring", "grass-spring");
     map.createLayer("ground", tileset!, 0, 0);
     map.createLayer("decoration", tileset!, 0, 0);
+    // map.createLayer("walls", tileset!, 0, 0);
 
     this.player = new Player(this, 640, 480);
     this.add.existing(this.player);
@@ -35,7 +36,7 @@ export class MainScene extends Phaser.Scene {
 
     this.cameras.main.startFollow(this.player)
     this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels)
-    this.cameras.main.setZoom(2);
+    this.cameras.main.setZoom(4);
 
   }
   update() {
