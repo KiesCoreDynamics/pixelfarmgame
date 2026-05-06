@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { Player } from "@/game/entities/Player";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -11,17 +12,7 @@ export class MainScene extends Phaser.Scene {
     });
   }
   create() {
-    this.anims.create({
-      key: "idle",
-      frames: this.anims.generateFrameNumbers("player", {
-        start: 0,
-        end: 11,
-      }),
-      frameRate: 8,
-      repeat: -1,
-      skipMissedFrames: false,
-    });
-    const player = this.add.sprite(400, 300, "player").setScale(2);
-    player.play("idle", true);
+    this.add.existing(new Player(this, 400, 300));
+  
   }
 }
