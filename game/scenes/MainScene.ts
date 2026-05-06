@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { Player } from "@/game/entities/Player";
 
 export class MainScene extends Phaser.Scene {
+  private player!: Player;
   constructor() {
     super({ key: "MainScene" });
   }
@@ -12,7 +13,11 @@ export class MainScene extends Phaser.Scene {
     });
   }
   create() {
-    this.add.existing(new Player(this, 400, 300));
-  
+    this.player = new Player(this, 400, 300);
+    this.add.existing(this.player);
+    // this.sys.updateList.add(this.player)
+  }
+  update() {
+    this.player.update();
   }
 }
