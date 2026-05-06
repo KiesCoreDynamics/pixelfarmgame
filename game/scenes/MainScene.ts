@@ -7,7 +7,15 @@ export class MainScene extends Phaser.Scene {
     super({ key: "MainScene" });
   }
   preload() {
-    this.load.spritesheet("player", "/assets/player/Idle.png", {
+    this.load.spritesheet("idle", "/assets/player/Idle.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet("walk", "/assets/player/Walk.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet("run", "/assets/player/Run.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
