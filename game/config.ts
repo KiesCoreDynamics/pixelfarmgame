@@ -2,8 +2,10 @@ import Phaser from "phaser";
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 640,
+  width: window.innerWidth,
+  height: window.innerHeight,
+  // width: "100%",
+  // height: "100%",
   parent: "game-container",
   scene: [],
   pixelArt: true,
@@ -13,6 +15,9 @@ const config: Phaser.Types.Core.GameConfig = {
     target: 60,
     forceSetTimeOut: true,
   },
+  scale:  {
+    mode: Phaser.Scale.RESIZE,
+  },autoCenter: Phaser.Scale.CENTER_BOTH,
 };
 
 export default config;
