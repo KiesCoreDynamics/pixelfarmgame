@@ -13,9 +13,16 @@ const config: Phaser.Types.Core.GameConfig = {
     target: 60,
     forceSetTimeOut: true,
   },
-  scale:  {
+  scale: {
     mode: Phaser.Scale.RESIZE,
-  },autoCenter: Phaser.Scale.CENTER_BOTH,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
+  physics: {
+    default: "arcade",
+    arcade: {
+      debug: true,
+    },
+  },
 };
 
 export default config;

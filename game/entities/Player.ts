@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export class Player extends Phaser.GameObjects.Sprite {
+export class Player extends Phaser.Physics.Arcade.Sprite {
   private direction: string = "down";
   private isMoving: boolean = false;
   private isRunning: boolean = false;
@@ -17,6 +17,7 @@ export class Player extends Phaser.GameObjects.Sprite {
   // ? ++++++ MOVEMENT-HANDLER ++++++
 
   private handleMovement() {
+    this.setVelocity(0, 0);
     this.isRunning = this.cursors.shift.isDown;
     const speed = this.isRunning ? 180 : 90;
     this.isMoving = false;
@@ -48,8 +49,7 @@ export class Player extends Phaser.GameObjects.Sprite {
     }
 
     velocity.normalize();
-    this.x += (velocity.x * speed) / 60;
-    this.y += (velocity.y * speed) / 60;
+    this.setVelocity(velocity.x * speed, velocity.y * speed);
   }
 
   // ? ++++++ ANIMATION_HANDLER ++++++
@@ -127,6 +127,7 @@ export class Player extends Phaser.GameObjects.Sprite {
     super(scene, x, y, "idle");
 
     this.setScale(0.5);
+    
     // ? === CREATE "IDLE" ===
     scene.anims.create({
       key: "idle-down",
@@ -197,6 +198,8 @@ export class Player extends Phaser.GameObjects.Sprite {
       frameRate: 10,
       repeat: -1,
     });
+
+    // ? === CREATE CURSOR/WASD-KEYS ===
 
     this.cursors = this.scene.input.keyboard!.createCursorKeys();
     this.wasd = {
