@@ -1,8 +1,11 @@
 import Phaser from "phaser";
 import { Player } from "@/game/entities/Player";
+import { CameraController } from "@/game/camera/CameraController";
 
 export class MainScene extends Phaser.Scene {
   private player!: Player;
+  private camera!: CameraController;
+
   constructor() {
     super({ key: "MainScene" });
   }
@@ -31,20 +34,21 @@ export class MainScene extends Phaser.Scene {
 
     const decorationLayer = map.createLayer("decoration", tileset!, 0, 0);
     decorationLayer!.setCollisionByExclusion([-1]);
-    
 
     this.player = new Player(this, 640, 480);
     this.add.existing(this.player);
-    this.physics.add.existing(this.player)
+    this.physics.add.existing(this.player);
     this.player.setBodySize(8, 4);
     this.player.setOffset(12, 20);
     this.physics.add.collider(this.player, decorationLayer);
 
-    this.cameras.main.startFollow(this.player);
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    this.cameras.main.setZoom(3);
+    this.camera = new CameraController(this.cameras.main, this.player, this, map.widthInPixels, map.heightInPixels);
   }
   update() {
-    this.player.update();
+    // this.player.update();
+    this.camera.update();
+    if (this.camera.isFollowingPlayer()) {
+      this.player.update();
+    }
   }
 }
