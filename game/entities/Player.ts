@@ -29,22 +29,31 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     const velocity = new Phaser.Math.Vector2(0, 0);
 
-    if (left && !right) {
-      velocity.x = -1;
+    if (Phaser.Input.Keyboard.JustDown(this.wasd.left) || Phaser.Input.Keyboard.JustDown(this.cursors.left))
       this.direction = "left";
-      this.isMoving = true;
-    } else if (right && !left) {
-      velocity.x = 1;
+    if (Phaser.Input.Keyboard.JustDown(this.wasd.right) || Phaser.Input.Keyboard.JustDown(this.cursors.right))
       this.direction = "right";
-      this.isMoving = true;
-    }
+    if (Phaser.Input.Keyboard.JustDown(this.wasd.up) || Phaser.Input.Keyboard.JustDown(this.cursors.up))
+      this.direction = "up";
+    if (Phaser.Input.Keyboard.JustDown(this.wasd.down) || Phaser.Input.Keyboard.JustDown(this.cursors.down))
+      this.direction = "down";
+
     if (up && !down) {
       velocity.y = -1;
-      this.direction = "up";
+      // this.direction = "up";
       this.isMoving = true;
     } else if (down && !up) {
       velocity.y = 1;
-      this.direction = "down";
+      // this.direction = "down";
+      this.isMoving = true;
+    }
+    if (left && !right) {
+      velocity.x = -1;
+      this.isMoving = true;
+      // this.direction = "left";
+    } else if (right && !left) {
+      velocity.x = 1;
+      // this.direction = "right";
       this.isMoving = true;
     }
 
@@ -127,7 +136,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, "idle");
 
     this.setScale(0.5);
-    
+
     // ? === CREATE "IDLE" ===
     scene.anims.create({
       key: "idle-down",

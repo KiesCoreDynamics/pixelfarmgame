@@ -30,17 +30,26 @@ export class MainScene extends Phaser.Scene {
     const map = this.make.tilemap({ key: "map" });
     const tileset = map.addTilesetImage("grass-spring", "grass-spring");
     map.createLayer("ground", tileset!, 0, 0);
-    // map.createLayer("decoration", tileset!, 0, 0);
+    map.createLayer("decoration", tileset!, 0, 0);
+    
+    // ? ~~ COLLISION ~~
+    const collisionObjects = map.getObjectLayer('collision');
+    const collisionGroup = this.physics.add.staticGroup()
 
-    const decorationLayer = map.createLayer("decoration", tileset!, 0, 0);
-    decorationLayer!.setCollisionByExclusion([-1]);
+    
+    collisionObjects?.objects.forEach((obj) => {
+      const rect = this.add.rectangle(obj.x! + obj.width! / 2, obj.y! + obj.height! / 2, obj.width!, obj.height!);
+      this.physics.add.existing(rect, true);
+      collisionGroup.add(rect);
+    });
+
 
     this.player = new Player(this, 640, 480);
     this.add.existing(this.player);
     this.physics.add.existing(this.player);
     this.player.setBodySize(8, 4);
-    this.player.setOffset(12, 20);
-    this.physics.add.collider(this.player, decorationLayer);
+    this.player.setOffset(12.25, 22);
+    this.physics.add.collider(this.player, collisionGroup);
 
     this.camera = new CameraController(this.cameras.main, this.player, this, map.widthInPixels, map.heightInPixels);
   }
