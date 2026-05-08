@@ -24,4 +24,12 @@ export class Tree extends Phaser.GameObjects.Container {
       this.add(sprite);
     });
   }
+  interact() {
+    this.hitpoints -= 1;
+    console.log(`${this.treeName} getroffen! HP: ${this.hitpoints}`);
+    if (this.hitpoints <= 0) {
+      this.isDestroyed = true;
+      this.destroy();
+    }
+  }
 }

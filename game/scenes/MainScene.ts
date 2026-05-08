@@ -2,11 +2,13 @@ import Phaser from "phaser";
 import { Player } from "@/game/entities/Player";
 import { CameraController } from "@/game/camera/CameraController";
 import { Tree } from "../entities/Tree";
+import { InteractionSystem } from "../systems/InteractionSystem";
 
 export class MainScene extends Phaser.Scene {
   private player!: Player;
   private camera!: CameraController;
   private trees: Tree[] = [];
+  private interactionSystem!: InteractionSystem
 
   constructor() {
     super({ key: "MainScene" });
@@ -52,6 +54,8 @@ export class MainScene extends Phaser.Scene {
     treeObjects?.objects.forEach((treeData) => {
       const tree = new Tree(this, treeData.x!, treeData.y!, treeData.name!);
       this.add.existing(tree);
+      this.physics.add.existing(tree);
+      (tree.body as Phaser.Physics.Arcade.Body).setSize(9, 14).setOffset(4,26);
       this.trees.push(tree);
       const body = this.add.rectangle(treeData.x! + 8, treeData.y! + 33, 7, 12);
       this.physics.add.existing(body, true);
@@ -60,12 +64,15 @@ export class MainScene extends Phaser.Scene {
 
     this.player = new Player(this, 640, 480);
     this.add.existing(this.player);
+    
     this.physics.add.existing(this.player);
     this.player.setBodySize(8, 4);
     this.player.setOffset(12.25, 22);
     this.physics.add.collider(this.player, collisionGroup);
 
     this.camera = new CameraController(this.cameras.main, this.player, this, map.widthInPixels, map.heightInPixels);
+
+    this.interactionSystem = new InteractionSystem(this, this.player, this.trees)
   }
   update() {
     this.camera.update();
@@ -76,5 +83,6 @@ export class MainScene extends Phaser.Scene {
       tree.depth = tree.y + 32;
     });
     this.player.depth = this.player.y
+    this.interactionSystem.update()
   }
 }
